@@ -19,7 +19,7 @@
 
 **Architectural Positioning & Known Limitations (to be documented in thesis):**
 - **Software Architecture:** The firmware across all 4 microcontrollers adheres to an **AUTOSAR-inspired Layered Architecture**: strictly decoupling the *Application Layer (SWCs)*, *Runtime Environment (RTE)*, *Basic Software (BSW: COM, E2E Transformer, DEM, DCM, CanIf)*, *MCAL*, and *OS (FreeRTOS)*. It conforms to the AUTOSAR E2E Profile 1 specification, UDS diagnostics standard (ISO 14229-1), DTC fault handling, and snapshot freeze frames.
-- **Scope Limitations:** The project does not utilize commercial proprietary toolchains and does not claim official ISO 26262 functional safety certification or Full-Stack AUTOSAR compliance due to hardware constraints of the STM32F103 (64 KB Flash, 20 KB RAM); payload cryptographic authentication/encryption is omitted on CAN (no spoofing mitigation); power windows are simulated in software; the DMS utilizes a pretrained MediaPipe model; freeze frames are stored in volatile RAM (lost on power cycle); the system is an experimental tabletop prototype. Detailed specifications can be found in [Kien-truc-Firmware-AUTOSAR.md](file:///c:/Study/Thesis_BEng/doc/Kien-truc-Firmware-AUTOSAR.md).
+- **Scope Limitations:** The project does not utilize commercial proprietary toolchains and does not claim official ISO 26262 functional safety certification or Full-Stack AUTOSAR compliance due to hardware constraints of the STM32F103 (64 KB Flash, 20 KB RAM); payload cryptographic authentication/encryption is omitted on CAN (no spoofing mitigation); power windows are simulated in software; the DMS utilizes a pretrained MediaPipe model; freeze frames are stored in volatile RAM (lost on power cycle); the system is an experimental tabletop prototype. Detailed specifications can be found in [Kien-truc-Firmware-AUTOSAR.md](Kien-truc-Firmware-AUTOSAR.md).
 
 ---
 
@@ -77,7 +77,7 @@ Firmware deployed across all 4 STM32F103 microcontrollers is structured accordin
    - **IoHwAb, Dio, Pwm, Adc, Icu:** Abstracts GPIOs, timer input capture for wheel encoders, PWM generators for lighting/fans/servos, and ADC sampling.
 5. **Operating System (OS Layer):** **FreeRTOS** real-time operating system configured with 100% static memory allocation (`configSUPPORT_DYNAMIC_ALLOCATION 0`), SysTick (1 kHz) scheduler timebase, and independent `TIM2` timer as the STM32 HAL timebase.
 
-*Comprehensive specifications, RTE APIs, and data flow diagrams are detailed in:* [Kien-truc-Firmware-AUTOSAR.md](file:///c:/Study/Thesis_BEng/doc/Kien-truc-Firmware-AUTOSAR.md).
+*Comprehensive specifications, RTE APIs, and data flow diagrams are detailed in:* [Kien-truc-Firmware-AUTOSAR.md](Kien-truc-Firmware-AUTOSAR.md).
 
 ---
 

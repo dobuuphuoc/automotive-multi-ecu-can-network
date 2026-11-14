@@ -34,11 +34,11 @@
 | **Physical Test Rig** | Acrylic panel on aluminum extrusion frame housing Master, Jetson, 4 ECUs, CAN bus wiring, camera, and display. |
 
 **Microcontroller Firmware Architecture (AUTOSAR Classic Model):**  
-Firmware across all 4 microcontrollers implements the standardized **AUTOSAR Classic** layered architecture (detailed in [Kien-truc-Firmware-AUTOSAR.md](file:///c:/Study/Thesis_BEng/doc/Kien-truc-Firmware-AUTOSAR.md)):
+Firmware across all 4 microcontrollers implements the standardized **AUTOSAR Classic** layered architecture (detailed in [Kien-truc-Firmware-AUTOSAR.md](Kien-truc-Firmware-AUTOSAR.md)):
 - **Application Layer (`apps/ecu_*`):** Software Components (`SWC_BCM`, `SWC_Window`, `SWC_Climate`, `SWC_WSW`) executing periodic and event-driven Runnables, decoupled from hardware.
 - **RTE Layer (`rte/`):** Virtual Function Bus abstraction APIs (`Rte_Read_*`, `Rte_Write_*`, `Rte_Call_*`) interconnecting SWCs and BSW.
 - **BSW Services Layer (`common/`):** `can_com` (COM/PduR), `e2e_crc8` (AUTOSAR E2E Profile 1), `diag_dcm` (ISO 14229 UDS), `diag_dem` (DTC lifecycle, RAM freeze frames), `wdgm` (Watchdog Manager & Alive Supervision).
-- **ECU Abstraction & MCAL:** `board_pins.h` (IoHwAb), `can_driver.c/.h` (CanIf + bxCAN MCAL at 500 kbps, 83.3% SP), STM32 HAL.
+- **ECU Abstraction & MCAL:** [`board_pins.h`](../ecu-firmware/common/board_pins.h) (IoHwAb), `can_driver.c/.h` (CanIf + bxCAN MCAL at 500 kbps, 83.3% SP), STM32 HAL.
 - **OS Layer (FreeRTOS V11.2.0 Static Allocation):** Schedules SWC Runnables and BSW MainFunctions via dedicated FreeRTOS tasks:
 
 | FreeRTOS Dispatcher Task | Period / Trigger | Executed Runnables / BSW Modules |
@@ -193,7 +193,7 @@ Firmware across all 4 microcontrollers implements the standardized **AUTOSAR Cla
 
 ### 7.1. Concept and Motivation
 
-Production automotive ECUs must do more than demonstrate basic functionality: they must **detect faults deterministically, transition into safe operational states, record diagnostic trouble codes, and substantiate dependability through quantitative empirical data and verification testing**. The Automotive Quality Layer realizes an **AUTOSAR Classic layered architecture (SWC, RTE, BSW Services: COM, E2E, DCM/DEM, WdgM, CanIf/IoHwAb, MCAL)** utilizing a **Spec-compliant Custom BSW** approach: rigorously implementing AUTOSAR E2E Profile 1, ISO 14229 UDS diagnostics, and multi-task Alive Supervision without relying on expensive commercial stacks. Detailed specifications reside in [Kien-truc-Firmware-AUTOSAR.md](file:///c:/Study/Thesis_BEng/doc/Kien-truc-Firmware-AUTOSAR.md).
+Production automotive ECUs must do more than demonstrate basic functionality: they must **detect faults deterministically, transition into safe operational states, record diagnostic trouble codes, and substantiate dependability through quantitative empirical data and verification testing**. The Automotive Quality Layer realizes an **AUTOSAR Classic layered architecture (SWC, RTE, BSW Services: COM, E2E, DCM/DEM, WdgM, CanIf/IoHwAb, MCAL)** utilizing a **Spec-compliant Custom BSW** approach: rigorously implementing AUTOSAR E2E Profile 1, ISO 14229 UDS diagnostics, and multi-task Alive Supervision without relying on expensive commercial stacks. Detailed specifications reside in [Kien-truc-Firmware-AUTOSAR.md](Kien-truc-Firmware-AUTOSAR.md).
 
 ### 7.2. End-to-End (E2E) Communication Protection
 

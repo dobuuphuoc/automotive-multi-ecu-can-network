@@ -6,8 +6,8 @@
 [![MCU](https://img.shields.io/badge/Target-STM32F103%20Cortex--M3-002B49.svg)](https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html)
 [![Bus](https://img.shields.io/badge/Bus-CAN%202.0B%20%40%20500%20kbps-yellow.svg)](https://en.wikipedia.org/wiki/CAN_bus)
 [![Functional Safety](https://img.shields.io/badge/E2E-AUTOSAR%20Profile%201A%20(CRC--8)-red.svg)](doc/CAN-byte-layout.md)
-[![Diagnostics](https://img.shields.io/badge/Diagnostics-UDS%20(ISO%2014229)%20%2B%20DEM-purple.svg)](ecu-firmware/ecu-firmware/common/)
-[![Unit Tests](https://img.shields.io/badge/Host%20Tests-Unity%205%2F5%20Passing-success.svg)](ecu-firmware/ecu-firmware/tests/)
+[![Diagnostics](https://img.shields.io/badge/Diagnostics-UDS%20(ISO%2014229)%20%2B%20DEM-purple.svg)](ecu-firmware/common/)
+[![Unit Tests](https://img.shields.io/badge/Host%20Tests-Unity%205%2F5%20Passing-success.svg)](ecu-firmware/tests/)
 [![PCB](https://img.shields.io/badge/Hardware-Altium%204--ECU%20Carrier%20Board-blueviolet.svg)](Thesis/ECU_Carrier_Board/)
 
 A distributed automotive electronic control system featuring 4 Electronic Control Units (ECUs) interconnected via a high-speed CAN 2.0B bus. Built upon an **AUTOSAR Classic-inspired 4-layer architecture** (`ASW` → `RTE` → `BSW` → `MCAL`) and executed on **deterministic, 100% statically allocated FreeRTOS** runtimes. Includes end-to-end (E2E) functional safety CRC protection, standardized UDS diagnostics (ISO 14229), a custom 4-node PCB carrier board, and a 100% passing host unit test suite.
@@ -53,7 +53,7 @@ Structured strict separation of concerns following AUTOSAR Classic methodology:
   - General-Purpose Timer `TIM2` provides an independent 1 kHz timebase for STM32 HAL, avoiding lockups during ISR-disabled sections.
 
 ### 3. Functional Safety & Diagnostic Protocols
-- **AUTOSAR E2E Profile 1A**: Protects safety-critical CAN signals against communication faults (corruption, loss, repetition, masquerading) using a rolling 4-bit Alive Counter and an 8-bit SAE J1850 CRC polynomial ($x^8 + x^4 + x^3 + x^2 + 1$, `0x1D`).
+- **AUTOSAR E2E Profile 1A**: Protects safety-critical CAN signals against communication faults (corruption, loss, repetition, masquerading). The `Alive_Counter` is a 4-bit counter incrementing `0 to 15` (modulo 16 rollover), located at the message-specific byte defined in [doc/CAN-byte-layout.md](doc/CAN-byte-layout.md), while `CRC8` (SAE J1850, polynomial `0x1D`, init `0xFF`, xorout `0xFF`) is always at `byte[DLC - 1]`.
 - **UDS (ISO 14229) Diagnostics (DCM)**: Supports Diagnostic Session Control (`0x10`), ECU Reset (`0x11`), Clear Diagnostic Information (`0x14`), Read DTC Information (`0x19`), Read Data by Identifier (`0x22`), and Tester Present (`0x3E`).
 - **Diagnostic Event Manager (DEM)**: Manages Diagnostic Trouble Codes (DTCs), qualification debouncing, status byte state machine, and freeze-frame telemetry capture.
 - **Watchdog Manager (WdgM)**: Supervised entities report alive tokens cyclically; missing checkpoints trigger deliberate reset via STM32 hardware IWDG.
@@ -110,15 +110,25 @@ flowchart TD
 
 ---
 
-## 🚗 Multi-ECU Node Allocation
+## 🚗 CAN Network Matrix & Frame Summary
 
-| ECU Node | Primary Responsibilities | Sensors & Actuators | CAN Messages Produced |
-|---|---|---|---|
-| **ECU_BCM** | Exterior/interior lighting, door lock actuators, horn buzzer, driver hazard inputs | Pushbuttons, switches, LEDs, relay outputs, buzzer | `0x100` BCM_Status (100 ms)<br>`0x101` BCM_Command (50 ms) |
-| **ECU_CLIMATE** | Automatic cabin temperature regulation, PWM fan control, airflow vane servo | DHT11/DHT22 temperature & humidity, potentiometer, PWM driver | `0x200` Climate_Status (100 ms) |
-| **ECU_WINDOW** | Driver & passenger window motor control, anti-pinch safety threshold detection | H-Bridge driver (L9110S/L298N), current shunt sensor, limit switches | `0x300` Window_Status (50 ms) |
-| **ECU_WSW** | Wheel speed pulse measurement, slip estimation, automatic hazard trigger | Hall-effect / optical wheel speed encoder, alarm buzzer | `0x400` WSW_Status (20 ms) |
-| **DK1 Master** | Host gateway, telemetry logging, SocketCAN test supervisor, UDS diagnostics | Linux embedded host (Jetson / STM32MP1 / PC) | `0x6F1` Host_Command<br>`0x7DF` UDS Functional Request |
+| CAN ID | Message Name | Transmitter | Receivers | DLC | Cycle Time / Trigger | Description |
+| :---: | :--- | :--- | :--- | :---: | :--- | :--- |
+| `0x100` | `WSW_WARNING` | WSW | MASTER | 4 | Event (100 ms while active) | Wheel slip warning, brake pressed, decel exceeded |
+| `0x101` | `WHEEL_SPEED` | WSW | BCM, MASTER | 7 | 20 ms periodic | Wheel speed (0.1 rpm), reference speed, brake status |
+| `0x102` | `CLIMATE_STATUS` | CLIMATE | MASTER | 8 | 100 ms periodic | Cabin temperature, humidity, fan speed, flap angle, fog risk |
+| `0x103` | `BCM_STATUS` | BCM | MASTER, WINDOW | 4 | 100 ms periodic | Door open, lock state, headlight, cabin light, alarm state |
+| `0x104` | `WINDOW_CMD` | MASTER | WINDOW | 3 | Event-triggered | Target window angle (0–180°), child lock enable |
+| `0x105` | `CLIMATE_CMD` | MASTER | CLIMATE | 5 | Event-triggered | Climate mode, fan speed cmd, flap angle cmd, temp setpoint |
+| `0x106` | `BCM_CMD` | MASTER | BCM | 3 | Event-triggered | Door lock cmd, headlight cmd, cabin light cmd, buzzer test |
+| `0x110` | `DMS_ALERT` | DMS | BCM, CLIMATE, MASTER | 3 | Event (100 ms while active) | Drowsy/distracted driver alert type and severity |
+| `0x111` | `DMS_STATUS` | DMS | MASTER | 8 | 100 ms periodic | Face detected, camera status, EAR value, head yaw/pitch, FPS |
+| `0x204` | `WINDOW_STATUS` | WINDOW | MASTER | 4 | 100 ms periodic | Window current angle, target echo, moving flag, pinch detected |
+
+### 🛡️ AUTOSAR E2E Profile 1A Specification
+Every CAN message on the bus implements **AUTOSAR E2E Profile 1A** protection:
+- **`Alive_Counter`**: A 4-bit sequence counter incrementing from `0 to 15` (modulo 16 rollover, `(cnt + 1) & 0x0F`), located at the message-specific byte defined in [doc/CAN-byte-layout.md](doc/CAN-byte-layout.md) to detect frame repetition, loss, and reordering.
+- **`CRC8`**: SAE J1850 CRC-8 calculation (polynomial `0x1D`, initial value `0xFF`, XOR mask `0xFF`) computed over `[E2E_DataID, payload[0:DLC-2]]`, always placed at the final byte (`byte[DLC - 1]`) to detect transmission corruption.
 
 ![System Overview](result/overview_system.png)
 
@@ -134,7 +144,7 @@ The project features a dedicated **4-ECU Carrier Board** designed in Altium Desi
 
 | Schematic Overview | PCB Top Layer (3D Render) | PCB Bottom Layer (3D Render) |
 | :---: | :---: | :---: |
-| ![Carrier Board Schematic](result/Schematic.png) | ![PCB Top Side](result/PCB_TopSide.png) | ![PCB Bottom Side](result/PCB_Bottom%20SIde.png) |
+| ![Carrier Board Schematic](result/Schematic.png) | ![PCB Top Side](result/PCB_TopSide.png) | ![PCB Bottom Side](result/PCB_Bottom_Side.png) |
 
 ---
 
@@ -150,16 +160,20 @@ The project features a dedicated **4-ECU Carrier Board** designed in Altium Desi
 │   ├── overview_system.png             # System connectivity diagram
 │   ├── Schematic.png                   # Carrier board schematic diagram
 │   ├── PCB_TopSide.png                 # Altium PCB top 3D render
-│   └── PCB_Bottom SIde.png             # Altium PCB bottom 3D render
+│   └── PCB_Bottom_Side.png             # Altium PCB bottom 3D render
 ├── doc/                                # System requirements, CAN DBC, and engineering notes
 │   ├── can_matrix.dbc                  # Formal CAN network signal matrix
 │   ├── CAN-byte-layout.md              # Frame packing & byte alignment specifications
 │   ├── Kien-truc-Firmware-AUTOSAR.md   # Detailed AUTOSAR firmware architecture manual
-│   ├── PCB-Requirements-4ECU.md        # Hardware carrier board electrical requirements
-│   └── e2e_reference.py                # Reference Python implementation of E2E Profile 1A
+│   └── PCB-Requirements-4ECU.md        # Hardware carrier board electrical requirements
+├── tools/                              # Hardware & protocol validation scripts
+│   ├── apply_patch.py                  # PCB OLE2 binary patch tool
+│   ├── verify_pcb.py                   # PCB structural & design rule verification
+│   ├── e2e_reference.py                # Reference Python implementation of E2E Profile 1A
+│   └── bench_facemesh.py               # DMS FaceMesh benchmark script
 ├── Thesis/
 │   └── ECU_Carrier_Board/              # Altium Designer PCB Project (.PrjPcb, .SchDoc, .PcbDoc)
-└── ecu-firmware/ecu-firmware/          # Production firmware & host test suite
+└── ecu-firmware/                       # Production firmware & host test suite
     ├── CMakeLists.txt                  # Top-level build configuration (cross-target)
     ├── CMakePresets.json               # CMake presets for debug, release, loopback
     ├── README.md                       # Firmware-specific technical guide
@@ -184,29 +198,29 @@ The project features a dedicated **4-ECU Carrier Board** designed in Altium Desi
 - **Flashing / Debug**: OpenOCD and ST-Link v2
 
 ### 2. Fetch Third-Party Dependencies
-Download FreeRTOS-Kernel, CMSIS Core/Device, STM32 HAL drivers, and Unity into `ecu-firmware/ecu-firmware/third_party/`:
+Download FreeRTOS-Kernel, CMSIS Core/Device, STM32 HAL drivers, and Unity into `ecu-firmware/third_party/`:
 ```powershell
 # Windows
-cd ecu-firmware\ecu-firmware
+cd ecu-firmware
 .\scripts\fetch_deps.ps1
 ```
 ```bash
 # Linux / macOS
-cd ecu-firmware/ecu-firmware
+cd ecu-firmware
 ./scripts/fetch_deps.sh
 ```
 
 ### 3. Run Automated Host Unit Tests (No Target Board Required)
 Build and execute all 5 host unit test suites using the Unity test harness:
 ```bash
-cd ecu-firmware/ecu-firmware
+cd ecu-firmware
 cmake -S tests -B build/tests
 cmake --build build/tests
 ctest --test-dir build/tests --output-on-failure
 ```
 **Expected Test Output:**
 ```
-Test project C:/Study/Thesis_BEng/ecu-firmware/ecu-firmware/build/tests
+Test project ecu-firmware/build/tests
     Start 1: crc8
 1/5 Test #1: crc8 .............................   Passed    0.02 sec
     Start 2: e2e_state_machine
@@ -223,7 +237,7 @@ Test project C:/Study/Thesis_BEng/ecu-firmware/ecu-firmware/build/tests
 
 ### 4. Cross-Compile ECU Firmware Binaries
 ```bash
-cd ecu-firmware/ecu-firmware
+cd ecu-firmware
 cmake --preset debug
 cmake --build --preset debug
 ```

@@ -9,7 +9,7 @@
 
 ## 1. Week 4 Objectives (According to Plan v3)
 
-In accordance with [Ke-hoach-do-an-4-thang-v3.md](file:///c:/Study/Thesis_BEng/doc/Ke-hoach-do-an-4-thang-v3.md#L97), while awaiting the manufacturing and fabrication of the 4-ECU Carrier Board PCB at the factory, the primary objectives for Week 4 included:
+In accordance with [Ke-hoach-do-an-4-thang-v3.md](Ke-hoach-do-an-4-thang-v3.md#L97), while awaiting the manufacturing and fabrication of the 4-ECU Carrier Board PCB at the factory, the primary objectives for Week 4 included:
 1. Fully establish the microcontroller firmware development environment (Arm GNU Toolchain, CMake, Ninja, FreeRTOS-Kernel, STM32 HAL, VS Code).
 2. Construct and execute the Host Unit Test suite (Unity + CTest) for the E2E CRC-8 algorithm on the host computer prior to target deployment.
 3. Successfully bring up a standalone FreeRTOS sample application on the STM32F103 (Blue Pill) board in CAN Loopback and Normal modes.

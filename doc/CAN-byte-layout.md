@@ -377,7 +377,7 @@ Power Window position and motor state telemetry, transmitted periodically every 
 
 ## 4. End-to-End (E2E) Protection (Alive_Counter + CRC-8)
 
-All ECU firmware implementations follow the **AUTOSAR Classic layered architecture** utilizing a **Spec-compliant Custom BSW**: the `common/e2e_crc8` module adheres to the **AUTOSAR E2E Profile 1** technical specification (4-bit Alive Counter, DataID, CRC-8/SAE-J1850 polynomial 0x1D, 3-strike debounce fault/recovery filter per ISO 26262 ASIL B/D) integrated seamlessly with COM/PduR and UDS DCM/DEM without requiring expensive commercial full-stack licenses. Every CAN frame carries these two integrity fields, and the receiver verifies them prior to consuming data (for architectural details, refer to [Kien-truc-Firmware-AUTOSAR.md](file:///c:/Study/Thesis_BEng/doc/Kien-truc-Firmware-AUTOSAR.md)).
+All ECU firmware implementations follow the **AUTOSAR Classic layered architecture** utilizing a **Spec-compliant Custom BSW**: the `common/e2e_crc8` module adheres to the **AUTOSAR E2E Profile 1** technical specification (4-bit Alive Counter, DataID, CRC-8/SAE-J1850 polynomial 0x1D, 3-strike debounce fault/recovery filter per ISO 26262 ASIL B/D) integrated seamlessly with COM/PduR and UDS DCM/DEM without requiring expensive commercial full-stack licenses. Every CAN frame carries these two integrity fields, and the receiver verifies them prior to consuming data (for architectural details, refer to [Kien-truc-Firmware-AUTOSAR.md](Kien-truc-Firmware-AUTOSAR.md)).
 
 **CRC Calculation Specifications:**
 
