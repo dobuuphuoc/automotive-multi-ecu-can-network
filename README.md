@@ -273,6 +273,12 @@ python3 tools/dk1_can_test.py tx can0 --period-ms 100 --corrupt 20
 
 ## 👤 Author & Acknowledgments
 
-- **Author**: Pham Huoc (B.Eng. Thesis in Automotive Electronics & Embedded Systems)
-- **Institution**: Ho Chi Minh City University of Technology and Education (HCMUTE)
-- **Supervision**: Department of Automotive Engineering / Embedded Systems
+- **Author**: Do Buu Phuoc
+- **Institution**: Ho Chi Minh International University - VNU (HCMIU)
+- **Supervision**: MEng Vo Minh Thanh
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
