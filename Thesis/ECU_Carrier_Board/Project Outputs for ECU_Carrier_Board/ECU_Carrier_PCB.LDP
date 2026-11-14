@@ -1,0 +1,4 @@
+Layer Pairs Export File for PCB: C:\Study\Thesis_BEng\Thesis\ECU_Carrier_Board\ECU_Carrier_PCB.PcbDoc
+LayersSetName=Top_Bot_Plated_Thru_Holes|DrillFile=ecu_carrier_pcb-roundholes-plated.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_Plated_Square_Holes|DrillFile=ECU_Carrier_PCB-SquareHoles-Plated.TXT|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_NonPlated_Thru_Holes|DrillFile=ecu_carrier_pcb-roundholes-nonplated.txt|DrillLayers=gtl,gbl

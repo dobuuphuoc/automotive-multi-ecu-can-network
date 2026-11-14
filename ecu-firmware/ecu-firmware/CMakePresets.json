@@ -1,0 +1,21 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "toolchainFile": "${sourceDir}/cmake/arm-none-eabi.cmake",
+      "binaryDir": "${sourceDir}/build/${presetName}"
+    },
+    { "name": "debug",   "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
+    { "name": "release", "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" } },
+    { "name": "debug-loopback", "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "BRINGUP_CAN_LOOPBACK": "ON" } }
+  ],
+  "buildPresets": [
+    { "name": "debug",          "configurePreset": "debug" },
+    { "name": "release",        "configurePreset": "release" },
+    { "name": "debug-loopback", "configurePreset": "debug-loopback" }
+  ]
+}

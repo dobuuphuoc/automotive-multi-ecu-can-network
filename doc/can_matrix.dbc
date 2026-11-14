@@ -1,0 +1,205 @@
+VERSION "0.5"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: MASTER DMS BCM WINDOW CLIMATE WSW
+
+
+BO_ 256 WSW_WARNING: 4 WSW
+ SG_ Slip_Warning_Active : 0|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Brake_Pressed : 1|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Warn_Lamp : 2|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Decel_Exceeded : 3|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Slip_Percent : 8|8@1+ (1,0) [0|100] "%" MASTER
+ SG_ Alive_Counter : 16|4@1+ (1,0) [0|15] "" MASTER
+ SG_ CRC8 : 24|8@1+ (1,0) [0|255] "" MASTER
+
+BO_ 257 WHEEL_SPEED: 7 WSW
+ SG_ Wheel_Speed : 0|16@1+ (0.1,0) [0|6553.5] "rpm" MASTER,BCM
+ SG_ Ref_Speed : 16|16@1+ (0.1,0) [0|6553.5] "rpm" MASTER,BCM
+ SG_ Brake_Pressed : 32|1@1+ (1,0) [0|1] "" MASTER,BCM
+ SG_ Alive_Counter : 40|4@1+ (1,0) [0|15] "" MASTER,BCM
+ SG_ CRC8 : 48|8@1+ (1,0) [0|255] "" MASTER,BCM
+
+BO_ 258 CLIMATE_STATUS: 8 CLIMATE
+ SG_ Cabin_Temp : 0|12@1- (0.1,0) [-40|125] "degC" MASTER
+ SG_ Cabin_Humidity : 12|10@1+ (0.1,0) [0|100] "%" MASTER
+ SG_ Sunlight_Level : 22|8@1+ (1,0) [0|255] "" MASTER
+ SG_ Fan_Speed : 30|7@1+ (1,0) [0|100] "%" MASTER
+ SG_ Flap_Angle : 37|8@1+ (1,0) [0|180] "deg" MASTER
+ SG_ Climate_Mode : 45|1@1+ (1,0) [0|1] "" MASTER
+ SG_ DHT_Fault : 46|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Fog_Risk : 47|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Fan_Override : 52|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Alive_Counter : 48|4@1+ (1,0) [0|15] "" MASTER
+ SG_ CRC8 : 56|8@1+ (1,0) [0|255] "" MASTER
+
+BO_ 259 BCM_STATUS: 4 BCM
+ SG_ Door_Open : 0|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ Lock_State : 1|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ Headlight_On : 2|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ CabinLight_On : 3|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ Buzzer_On : 4|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ PIR_Motion : 5|1@1+ (1,0) [0|1] "" MASTER,WINDOW
+ SG_ Alarm_State : 6|2@1+ (1,0) [0|2] "" MASTER,WINDOW
+ SG_ Ambient_Light : 8|8@1+ (1,0) [0|255] "" MASTER,WINDOW
+ SG_ Alive_Counter : 16|4@1+ (1,0) [0|15] "" MASTER,WINDOW
+ SG_ CRC8 : 24|8@1+ (1,0) [0|255] "" MASTER,WINDOW
+
+BO_ 260 WINDOW_CMD: 3 MASTER
+ SG_ Target_Angle : 0|8@1+ (1,0) [0|180] "deg" WINDOW
+ SG_ Alive_Counter : 8|4@1+ (1,0) [0|15] "" WINDOW
+ SG_ Child_Lock : 12|1@1+ (1,0) [0|1] "" WINDOW
+ SG_ CRC8 : 16|8@1+ (1,0) [0|255] "" WINDOW
+
+BO_ 261 CLIMATE_CMD: 5 MASTER
+ SG_ Climate_Mode_Cmd : 0|1@1+ (1,0) [0|1] "" CLIMATE
+ SG_ Alive_Counter : 4|4@1+ (1,0) [0|15] "" CLIMATE
+ SG_ Fan_Speed_Cmd : 8|8@1+ (1,0) [0|100] "%" CLIMATE
+ SG_ Flap_Angle_Cmd : 16|8@1+ (1,0) [0|180] "deg" CLIMATE
+ SG_ Temp_Setpoint : 24|8@1+ (0.5,0) [0|50] "degC" CLIMATE
+ SG_ CRC8 : 32|8@1+ (1,0) [0|255] "" CLIMATE
+
+BO_ 262 BCM_CMD: 3 MASTER
+ SG_ Lock_Cmd : 0|2@1+ (1,0) [0|2] "" BCM
+ SG_ Headlight_Cmd : 2|2@1+ (1,0) [0|2] "" BCM
+ SG_ CabinLight_Cmd : 4|2@1+ (1,0) [0|2] "" BCM
+ SG_ Buzzer_Test : 6|1@1+ (1,0) [0|1] "" BCM
+ SG_ Alive_Counter : 8|4@1+ (1,0) [0|15] "" BCM
+ SG_ CRC8 : 16|8@1+ (1,0) [0|255] "" BCM
+
+BO_ 272 DMS_ALERT: 3 DMS
+ SG_ Alert_Type : 0|3@1+ (1,0) [0|3] "" BCM,MASTER,CLIMATE
+ SG_ Severity : 3|2@1+ (1,0) [0|3] "" BCM,MASTER,CLIMATE
+ SG_ Alive_Counter : 8|4@1+ (1,0) [0|15] "" BCM,MASTER,CLIMATE
+ SG_ CRC8 : 16|8@1+ (1,0) [0|255] "" BCM,MASTER,CLIMATE
+
+BO_ 273 DMS_STATUS: 8 DMS
+ SG_ Face_Detected : 0|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Camera_OK : 1|1@1+ (1,0) [0|1] "" MASTER
+ SG_ EAR_Value : 8|8@1+ (0.01,0) [0|2.55] "" MASTER
+ SG_ Head_Yaw : 16|8@1- (1,0) [-90|90] "deg" MASTER
+ SG_ Head_Pitch : 24|8@1- (1,0) [-90|90] "deg" MASTER
+ SG_ Dms_FPS : 32|8@1+ (1,0) [0|255] "fps" MASTER
+ SG_ Perclos_Pct : 40|8@1+ (1,0) [0|100] "%" MASTER
+ SG_ Alive_Counter : 48|4@1+ (1,0) [0|15] "" MASTER
+ SG_ CRC8 : 56|8@1+ (1,0) [0|255] "" MASTER
+
+BO_ 516 WINDOW_STATUS: 4 WINDOW
+ SG_ Current_Angle : 0|8@1+ (1,0) [0|180] "deg" MASTER
+ SG_ Target_Angle_Echo : 8|8@1+ (1,0) [0|180] "deg" MASTER
+ SG_ Moving : 16|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Pinch_Detected : 17|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Child_Lock_State : 18|1@1+ (1,0) [0|1] "" MASTER
+ SG_ Alive_Counter : 20|4@1+ (1,0) [0|15] "" MASTER
+ SG_ CRC8 : 24|8@1+ (1,0) [0|255] "" MASTER
+
+
+CM_ "Prototype CAN matrix v0.5 for miniature automotive E/E platform. Nodes: MASTER (STM32MP157 Linux, HMI/UDS tester), DMS (Jetson), BCM, WINDOW, CLIMATE, WSW (STM32F103 FreeRTOS). Standard 11-bit IDs, 500 kbit/s, Intel (little-endian) byte order, unused bits = 0. Every frame carries a 4-bit Alive_Counter and a CRC8 in its LAST byte (E2E protection).";
+CM_ BO_ 256 "Wheel slip warning. Sent on state change, repeated every 100 ms while Slip_Warning_Active = 1. Lowest ID = highest bus priority.";
+CM_ SG_ 256 Decel_Exceeded "1 = wheel deceleration above limit (second criterion besides slip)";
+CM_ SG_ 256 Slip_Percent "Slip = (Ref_Speed - Wheel_Speed) / Ref_Speed * 100, clipped to 0..100";
+CM_ SG_ 256 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 256 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 257 "Wheel speed and moving-average reference speed, cycle 20 ms. Speed is derived from encoder pulse period; the latest value is repeated between pulses.";
+CM_ SG_ 257 Ref_Speed "Moving average of Wheel_Speed over N samples (N configurable in firmware)";
+CM_ SG_ 257 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 257 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 258 "Climate ECU status, cycle 100 ms. DHT sensor is sampled every 2 s, last valid value is repeated. Signals are bit-packed to make room for CRC8.";
+CM_ SG_ 258 Sunlight_Level "Raw LDR value scaled to 0..255";
+CM_ SG_ 258 DHT_Fault "1 = last DHT read failed";
+CM_ SG_ 258 Fog_Risk "1 = cabin temperature close to dew point (Magnus formula), glass fogging risk";
+CM_ SG_ 258 Fan_Override "1 = fan forced to maximum by a DMS alert";
+CM_ SG_ 258 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 258 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 259 "BCM status, cycle 100 ms. Single door (one reed switch).";
+CM_ SG_ 259 Ambient_Light "Raw LDR value scaled to 0..255, higher = brighter";
+CM_ SG_ 259 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 259 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 260 "Window target angle command. Window ECU has no mechanical actuator: a software motor model is driven by a position PID. Angle > 180 is rejected and logged as DTC 0xB30001.";
+CM_ SG_ 260 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 260 Child_Lock "1 = ignore window commands except closing";
+CM_ SG_ 260 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 261 "Climate command. Fan_Speed_Cmd and Flap_Angle_Cmd are used in manual mode; Temp_Setpoint is used in auto mode.";
+CM_ SG_ 261 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 261 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 262 "BCM command. 0 = no action / automatic.";
+CM_ SG_ 262 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 262 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 272 "Driver monitoring alert from the DMS ECU (Jetson). Sent every 100 ms while Alert_Type != 0, then one frame with Alert_Type = 0 to clear. BCM clears buzzer if no valid frame for 500 ms.";
+CM_ SG_ 272 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 272 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 273 "DMS ECU heartbeat and telemetry, cycle 100 ms. Master treats missing valid frames (3x cycle) as DMS offline.";
+CM_ SG_ 273 Camera_OK "0 = camera not available";
+CM_ SG_ 273 EAR_Value "Eye Aspect Ratio x 100, telemetry only";
+CM_ SG_ 273 Dms_FPS "Processing rate of the DMS pipeline";
+CM_ SG_ 273 Perclos_Pct "Percentage of time eyes were closed over a sliding 60 s window";
+CM_ SG_ 273 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 273 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+CM_ BO_ 516 "Window status, cycle 100 ms.";
+CM_ SG_ 516 Pinch_Detected "1 = simulated anti-pinch triggered (motor model current above limit)";
+CM_ SG_ 516 Alive_Counter "Increments by 1 per transmitted frame, wraps 15 -> 0";
+CM_ SG_ 516 CRC8 "CRC-8/SAE-J1850 (poly 0x1D, init 0xFF, xorout 0xFF) over [E2E_DataID, all payload bytes except this last byte]";
+
+BA_DEF_ "BusType" STRING ;
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ BO_ "E2E_DataID" INT 0 255;
+BA_DEF_DEF_ "BusType" "CAN";
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "E2E_DataID" 0;
+BA_ "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 257 20;
+BA_ "GenMsgCycleTime" BO_ 258 100;
+BA_ "GenMsgCycleTime" BO_ 259 100;
+BA_ "GenMsgCycleTime" BO_ 273 100;
+BA_ "GenMsgCycleTime" BO_ 516 100;
+BA_ "E2E_DataID" BO_ 256 60;
+BA_ "E2E_DataID" BO_ 257 90;
+BA_ "E2E_DataID" BO_ 258 150;
+BA_ "E2E_DataID" BO_ 259 195;
+BA_ "E2E_DataID" BO_ 260 105;
+BA_ "E2E_DataID" BO_ 261 165;
+BA_ "E2E_DataID" BO_ 262 15;
+BA_ "E2E_DataID" BO_ 272 240;
+BA_ "E2E_DataID" BO_ 273 153;
+BA_ "E2E_DataID" BO_ 516 51;
+
+VAL_ 258 Climate_Mode 0 "Manual" 1 "Auto" ;
+VAL_ 259 Lock_State 0 "Unlocked" 1 "Locked" ;
+VAL_ 259 Alarm_State 0 "Disarmed" 1 "Armed" 2 "Alarm" ;
+VAL_ 261 Climate_Mode_Cmd 0 "Manual" 1 "Auto" ;
+VAL_ 262 Lock_Cmd 0 "No_Action" 1 "Lock" 2 "Unlock" ;
+VAL_ 262 Headlight_Cmd 0 "Auto" 1 "Off" 2 "On" ;
+VAL_ 262 CabinLight_Cmd 0 "Auto" 1 "Off" 2 "On" ;
+VAL_ 272 Alert_Type 0 "None" 1 "Drowsy" 2 "Distracted" 3 "No_Face" ;
+VAL_ 272 Severity 0 "None" 1 "Low" 2 "High" 3 "Critical" ;

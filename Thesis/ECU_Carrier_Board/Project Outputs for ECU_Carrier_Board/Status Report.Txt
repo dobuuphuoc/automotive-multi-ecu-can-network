@@ -1,0 +1,41 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [ECU_Carrier_Board.PrjPcb]
+   Generated File[ECU_Carrier_PCB.GTO]
+   Generated File[ECU_Carrier_PCB.GTP]
+   Generated File[ECU_Carrier_PCB.GTS]
+   Generated File[ECU_Carrier_PCB.GTL]
+   Generated File[ECU_Carrier_PCB.GBL]
+   Generated File[ECU_Carrier_PCB.GBS]
+   Generated File[ECU_Carrier_PCB.GBP]
+   Generated File[ECU_Carrier_PCB.GBO]
+   Generated File[ECU_Carrier_PCB.GM1]
+   Generated File[ECU_Carrier_PCB.GM2]
+   Generated File[ECU_Carrier_PCB.GM3]
+   Generated File[ECU_Carrier_PCB.GM5]
+   Generated File[ECU_Carrier_PCB.GM8]
+   Generated File[ECU_Carrier_PCB.GM11]
+   Generated File[ECU_Carrier_PCB.GM12]
+   Generated File[ECU_Carrier_PCB.GM13]
+   Generated File[ECU_Carrier_PCB.GM15]
+   Generated File[ECU_Carrier_PCB.GM16]
+   Generated File[ECU_Carrier_PCB.GM20]
+   Generated File[ECU_Carrier_PCB.GM21]
+   Generated File[ECU_Carrier_PCB.GM23]
+   Generated File[ECU_Carrier_PCB.GM24]
+   Generated File[ECU_Carrier_PCB.GKO]
+   Generated File[ECU_Carrier_PCB.GPT]
+   Generated File[ECU_Carrier_PCB.GPB]
+   Generated File[ECU_Carrier_PCB.GML]
+   Generated File[ECU_Carrier_PCB.1]
+   Generated File[ECU_Carrier_PCB.GD1]
+   Generated File[ECU_Carrier_PCB.GG1]
+   Generated File[ECU_Carrier_PCB.GM]
+   Generated File[ECU_Carrier_PCB.EXTREP]
+   Generated File[ECU_Carrier_PCB.REP]
+
+
+Files Generated   : 32
+Documents Printed : 0
+
+Finished Output Generation At 1:38:56 PM On 11/9/2026

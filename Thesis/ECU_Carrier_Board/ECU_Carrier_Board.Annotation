@@ -1,0 +1,13 @@
+[DesignatorManager]
+
+[SheetNumberManager]
+SheetNumberOrder=Display Order
+SheetNumberMethod=Increasing
+DocumentName0=ECU_Carrier_RevA_Backup.SchDoc
+UniqueIDPath0=
+SheetNumber0=2
+DocumentName1=ECU_Carrier_Sch.SchDoc
+UniqueIDPath1=
+SheetNumber1=1
+
+

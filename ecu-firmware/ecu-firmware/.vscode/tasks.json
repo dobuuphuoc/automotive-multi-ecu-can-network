@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "configure debug", "type": "shell", "command": "cmake --preset debug", "problemMatcher": [] },
+    { "label": "build debug", "type": "shell", "command": "cmake --build --preset debug",
+      "dependsOn": ["configure debug"], "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"] },
+    { "label": "flash debug (OpenOCD)", "type": "shell",
+      "command": "openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c \"program build/debug/bringup_bluepill.elf verify reset exit\"",
+      "dependsOn": ["build debug"], "problemMatcher": [] },
+    { "label": "host tests (CRC)", "type": "shell",
+      "command": "cmake -S tests -B build/tests -G Ninja && cmake --build build/tests && ctest --test-dir build/tests --output-on-failure",
+      "problemMatcher": [] }
+  ]
+}
